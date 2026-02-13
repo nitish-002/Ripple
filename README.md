@@ -1,73 +1,51 @@
-# React + TypeScript + Vite
+# Recursive Grid
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal, interactive 3x3 grid game built with React, TypeScript, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## 🚀 Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-## React Compiler
+2.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+3.  Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-## Expanding the ESLint configuration
+## 🎮 Game Logic & Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The grid consists of 9 cells (3x3), all initialized to `0`. Clicking a cell increments its value by `1` and triggers specific ripple effects based on the new value.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Interactions
+-   **Click**: Increments the cell's value by `1`.
+-   **Locking**: If a cell reaches a value of **15 or higher**, it becomes **LOCKED**.
+    -   Locked cells turn **Red**.
+    -   Locked cells cannot be clicked.
+    -   Locked cells cannot be modified by ripple effects from neighbors.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Ripple Effects
+After a cell is incremented, it checks its new value:
+1.  **Divisible by 3**: Decrements the **Right Neighbor** by `1` (if it exists and is not locked).
+2.  **Divisible by 5**: Increments the **Bottom Neighbor** by `2` (if it exists and is not locked).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+*Note: Ripple effects do not chain recursively in a single turn; they only affect immediate neighbors based on the clicked cell's new value.*
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 🎨 Styling Rules (Tailwind CSS)
+-   **Even Numbers**: Light Gray background (`#e0e0e0`) with Black text.
+-   **Odd Numbers**: Navy Blue background (`#1a237e`) with White text.
+-   **Locked (≥15)**: Red background (`bg-red-600`) with White text.
+-   **UI Details**:
+    -   Rounded corners (`4px`).
+    -   Hard shadow (`2px 2px 0px black`).
+    -   Centered layout.
+    -   Hover brightness and click scale animations.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🛠️ Tech Stack
+-   [React](https://react.dev/)
+-   [TypeScript](https://www.typescriptlang.org/)
+-   [Tailwind CSS](https://tailwindcss.com/)
+-   [Vite](https://vitejs.dev/)
